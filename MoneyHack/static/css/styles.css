@@ -1,7 +1,7 @@
 
 .feature-item {
     opacity: 0;
-    transition: opacity 1s ease-out, transform 2s ease-out;
+    transition: opacity 1s ease-out, transform 2s ease-out, box-shadow 2s ease-out;
     min-height: 330px;
 }
 
@@ -26,9 +26,10 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.feature-content:hover {
+.feature-item:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transition: transform 1s ease-out, box-shadow 1s ease-out;
 }
 
 @media (max-width: 768px) {
