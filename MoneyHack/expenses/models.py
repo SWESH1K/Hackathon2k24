@@ -26,7 +26,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.CharField(max_length=255)
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
-    date = models.DateTimeField()  # Remove auto_now_add=True
+    date = models.DateTimeField(auto_now_add=True)
     way_of_payment = models.CharField(max_length=20, choices=PAYMENT_CHOICES, default='cash')
     transaction_type = models.CharField(max_length=10, choices=TRANSACTION_TYPE_CHOICES, default='outgoing')
 
