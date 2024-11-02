@@ -18,7 +18,7 @@ class Command(BaseCommand):
                     amount=row['amount'],
                     description=row['description'],
                     tag=tag,
-                    date=datetime.strptime(row['date'], '%Y-%m-%d'),
+                    date=datetime.strptime(row['date'], '%Y-%m-%d'),  # Manually assign the date
                     way_of_payment=row['way_of_payment'],
                     transaction_type=row['transaction_type']
                 )
