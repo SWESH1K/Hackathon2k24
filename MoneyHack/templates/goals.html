@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block title %}Goals{% endblock %}
+
+{% block content %}
+{% load mathfilters %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const featureItems = document.querySelectorAll('.progress-bar');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progress = entry.target.getAttribute('data-progress');
+                    entry.target.style.width = progress + '%';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+    
+        featureItems.forEach(item => {
+            observer.observe(item);
+        });
+    });
+</script>
+
+<div class="container mt-5">
+    <div class="col-md-12">
+        <h1 class="text-center mb-4">Goals</h1>
+        <button class="btn btn-success mb-4" type="button" data-bs-toggle="collapse" data-bs-target="#addGoalForm" aria-expanded="false" aria-controls="addGoalForm">
+            Add Goal
+        </button>
+
+        <!-- Start Add Goal -->
+
+        <div class="collapse" id="addGoalForm">
+            <div class="card card-body mb-4">
+                <form method="post" action="{% url 'add_goal' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Goal Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="target_amount" class="form-label">Target Amount</label>
+                        <input type="number" class="form-control" id="target_amount" name="target_amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="weightage" class="form-label">Weightage</label>
+                        <input type="number" class="form-control" id="weightage" name="weightage" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="due_date" class="form-label">Due Date</label>
+                        <input type="date" class="form-control" id="due_date" name="due_date" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End Add Goal -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            All Goals
+        </div>
+        <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">S.No</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Target</th>
+                        <th scope="col">Weightage</th>
+                        <th scope="col" class="d-none d-md-table-cell">Due Date</th>
+                        <th scope="col" class="d-none d-md-table-cell">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for goal in goals %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td data-label="title">{{ goal.title }}</td>
+                        <td data-label="target_amount">
+                            {{ goal.target_amount }}
+                        </td>
+                        <td data-label="weightage">{{ goal.weightage }}</td>
+                        <td data-label="Due Date" class="d-none d-md-table-cell">{{ goal.due_date }}</td>
+                        <td data-label="Actions" class="d-none d-md-table-cell">
+                            <a href="{% url 'edit_goal' goal.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_goal' goal.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    <tr class="d-md-none">
+                        <td colspan="3" data-label="Date">{{ goal.due_date }}</td>
+                    </tr>
+                    <tr class="d-md-none">
+                        <td colspan="3" data-label="Actions">
+                            <a href="{% url 'edit_goal' goal.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_goal' goal.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Goals List -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Monthly Progress
+        </div>
+        <div class="card-body">
+            {% for goal in goals %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>{{ goal.title }}</h5>
+                </div>
+                <div class="col-md-6">
+                    {% with progress=current_savings|mul:goal.weightage|div:goal.monthly_target%}
+                    <div class="progress">
+                        
+                        <div class="progress-bar" role="progressbar" data-progress="{{ progress }}" style="width: 0%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        
+                    </div>
+                    {{ progress|floatformat:2 }}%
+                    {% endwith %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- End Goals List -->    
+</div>
+{% endblock %}
