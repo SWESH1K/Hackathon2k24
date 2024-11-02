@@ -4,6 +4,27 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const featureItems = document.querySelectorAll('.feature-item');
+    
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+    
+        featureItems.forEach(item => {
+            observer.observe(item);
+        });
+    });
+</script>
+
 <div class="jumbotron text-center">
     <h1 class="display-4">Welcome to MoneyHack</h1>
     <p class="lead">Your ultimate budget tracking solution.</p>
@@ -13,29 +34,57 @@
 </div>
 
 <div class="container mt-5">
-    <div class="row mb-4 feature-item">
+    <div class="row mt-4 mb-4 feature-item rounded bg-light">
+        <div class="col-md-6 d-flex align-items-center">
+            <div>
+                <h3 class="card-title">AI powered Analysis</h3>
+                <p class="card-text mt-2">Leverage AI to analyze your spending patterns and provide insights to help you save more.</p>
+            </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <img src="static/images/charts.png" class="img-fluid rounded" alt="AI powered Analysis" style="max-height: 300px;">
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row mt-4 mb-4 feature-item rounded bg-light">
+        <div class="col-md-6 d-flex align-items-center">
+            <div>
+                <h3 class="card-title">Chatbot for App Navigation</h3>
+                <p class="card-text mt-2">Use our chatbot to easily navigate through the app and get instant help with your queries.</p>
+            </div>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <img src="static/images/chatbot.png" class="img-fluid rounded" alt="Chatbot for App Navigation" style="max-height: 300px;">
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row mt-4 mb-4 feature-item rounded bg-light">
         <div class="col-md-6 d-flex align-items-center">
             <div>
                 <h3 class="card-title">Saving Goals Tracking</h3>
                 <p class="card-text mt-2">Set and track your saving goals to ensure you stay on top of your financial objectives.</p>
             </div>
         </div>
-        <div class="col-md-6 d-flex justify-content-end">
-            <img src="{% static 'images/charts.png' %}" class="img-fluid rounded" alt="Saving Goals Tracking" style="max-height: 300px;">
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <img src="static/images/saving goals.jpg" class="img-fluid rounded" alt="Saving Goals Tracking" style="max-width: 300px; max-height: 300px;">
         </div>
     </div>
 
     <hr class="my-4">
 
-    <div class="row mb-4 feature-item">
+    <div class="row mt-4 mb-4 feature-item rounded bg-light">
         <div class="col-md-6 d-flex align-items-center">
             <div>
                 <h3 class="card-title">Family Budget Management</h3>
                 <p class="card-text mt-2">Manage your family budget efficiently by tracking expenses and incomes for all family members.</p>
             </div>
         </div>
-        <div class="col-md-6 d-flex justify-content-end">
-            <img src="{% static 'images/family budget.jpg' %}" class="img-fluid rounded" alt="Family Budget Management" style="max-height: 300px;">
+        <div class="col-md-6 d-flex justify-content-end align-items-center">
+            <img src="static/images/family budget.jpg" class="img-fluid rounded" alt="Family Budget Management" style=" max-width: 300px; max-height: 300px;">
         </div>
     </div>
 </div>
