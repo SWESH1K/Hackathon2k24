@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Sum
+from django.contrib import messages
 
 @login_required
 def goals(request):
@@ -41,14 +42,25 @@ def goals(request):
     print(start_of_month, end_of_month)
     print(total_income, total_expenses, total_savings)
 
+    total_weightage = Goal.objects.filter(user=request.user).aggregate(total=Sum('weightage'))['total'] or 0
+    print("total:",total_weightage)
     if request.method == 'POST':
-        form = GoalForm(request.POST)
+        form = GoalForm(request.POST, request.FILES)
+        print("error2")
         if form.is_valid():
-            print('asdffdas')
+            if form.cleaned_data.get('weightage') + total_weightage > 100:
+                print("The total weightage of all goals cannot exceed 100%.")
+                messages.error(request, 'The total weightage of all goals cannot exceed 100%.')
+                return redirect('goals')
             goal = form.save(commit=False)
             goal.user = request.user
+            print(form.cleaned_data.get('icon'))
             goal.save()
             return redirect('goals')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error in {field}: {error}")
     else:
         form = GoalForm()
     return render(request, 'goals.html', {'goals': goals, 'form': form, 'current_savings': total_savings})

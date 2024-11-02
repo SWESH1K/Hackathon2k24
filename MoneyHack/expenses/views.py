@@ -4,6 +4,7 @@ from .forms import TransactionForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.utils import timezone
+from django.contrib import messages
 
 @login_required
 def home(request):
@@ -47,6 +48,10 @@ def home(request):
             transaction.user = request.user
             transaction.save()
             return redirect('expenses')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error in {field}: {error}")
     else:
         form = TransactionForm()
 
