@@ -19,9 +19,11 @@ def home(request):
     df = pd.DataFrame(data)
 
     # Group by month and type, and sum the amounts
-    df['Month'] = df['Date'].dt.to_period('M')
+    df['Month'] = df['Date'].dt.to_period('M').dt.to_timestamp()
     df_grouped = df.groupby(['Month', 'Type']).agg({'Amount': 'sum'}).reset_index()
-    df_grouped['Month'] = df_grouped['Month'].dt.to_timestamp()
+    df_grouped['Month'] = df_grouped['Month'].dt.to_pydatetime()
+    df['Date'] = df['Date'].dt.date  # Convert to date
+
 
     # Create the stacked bar chart
     fig_bar = px.bar(df_grouped, x='Month', y='Amount', color='Type', barmode='stack', title='Monthly Inflows and Outflows')
@@ -31,9 +33,42 @@ def home(request):
 
     # Create the pie chart
     fig_pie = px.pie(df_pie, names='Tag', values='Amount', title='Monthly Expense Breakdown')
+    df_top_expenses = df[df['Type'] == 'outgoing'].groupby('Tag').agg({'Amount': 'sum'}).reset_index()
+    df_top_expenses = df_top_expenses.sort_values(by='Amount', ascending=False).head(5)
+    fig_top_expenses = px.bar(
+        df_top_expenses, 
+        x='Amount', 
+        y='Tag', 
+        orientation='h', 
+        title='Top 5 Expense Categories',
+        labels={'Amount': 'Total Expense', 'Tag': 'Category'}
+    )
+    # Create the heatmap data
+    df_heatmap = df[df['Type'] == 'outgoing'].groupby('Date').agg({'Amount': 'sum'}).reset_index()
+    df_heatmap['Date'] = pd.to_datetime(df_heatmap['Date'])
+
+    # Create a pivot table for heatmap
+    df_heatmap['Day'] = df_heatmap['Date'].dt.day
+    df_heatmap['Month'] = df_heatmap['Date'].dt.month
+    heatmap_data = df_heatmap.pivot(index='Day', columns='Month', values='Amount').fillna(0)
+
+    # Create the heatmap
+    fig_heatmap = px.imshow(heatmap_data, 
+                         title='Monthly Spending Heatmap',
+                         labels=dict(x="Month", y="Day", color="Spending Amount"),
+                         x=heatmap_data.columns,
+                         y=heatmap_data.index)
+    df_line = df.groupby(['Month', 'Tag']).agg({'Amount': 'sum'}).reset_index()
+    fig_line = px.line(df_line, x='Month', y='Amount', color='Tag', title='Spending Trends Over Time')
+
 
     # Convert the plotly figures to HTML
     graph_bar = fig_bar.to_html(full_html=False)
     graph_pie = fig_pie.to_html(full_html=False)
+    graph_top_expenses = fig_top_expenses.to_html(full_html=False)
+    graph_heatmap = fig_heatmap.to_html(full_html=False)
+    graph_line = fig_line.to_html(full_html=False)
 
-    return render(request, 'analytics.html', {'graph_bar': graph_bar, 'graph_pie': graph_pie})
+
+    return render(request, 'analytics.html', {'graph_bar': graph_bar, 'graph_pie': graph_pie, 'graph_top_expenses': graph_top_expenses,'graph_line': graph_line,'graph_heatmap': graph_heatmap,
+})
