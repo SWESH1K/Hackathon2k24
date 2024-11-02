@@ -31,6 +31,10 @@
     transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
 }
 
+.progress-bar {
+    transition: width 2s ease-in-out;
+}
+
 @media (max-width: 768px) {
     .table thead {
         display: none;

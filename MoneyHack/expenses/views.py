@@ -51,6 +51,7 @@ def edit_transaction(request, id):
             return redirect('expenses')
     else:
         form = TransactionForm(instance=transaction)
+    # Add edit transactions page
     return render(request, 'edit_transaction.html', {'form': form})
 
 @login_required
