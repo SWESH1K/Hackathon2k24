@@ -58,7 +58,7 @@
 }
 
 .progress-bar {
-    transition: width 2s ease-in-out;
+    transition: width 2s ease-out;
 }
 
 @media (max-width: 768px) {

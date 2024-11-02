@@ -61,7 +61,45 @@
         </div>
     </div>
     <!-- End Add Goal -->
+    
+
+    <!-- Start Goals List -->
     <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Monthly Progress
+        </div>
+        <div class="list-group">
+            {% for goal in goals %}
+            <div class="list-group-item p-3">
+                <div class="d-flex align-items-center">
+                    {% if goal.title == 'Car' %}
+                    <img src="{% static 'images/car.png' %}" class="rounded-circle me-3" alt="Car Icon" style="width: 20%;">
+                    {% else %}
+                    <img src="{% static 'images/bike.png' %}" class="rounded-circle me-3" alt="User 1" style="width: 20%;">
+                    {% endif %}
+                    <div class="flex-grow-1">
+                        <h2 class="mb-1">{{goal.title}}</h2>
+                        {% with progress=current_savings|mul:goal.weightage|div:goal.monthly_target%}
+                        <div class="progress">
+                            
+                            <div class="progress-bar bg-success" role="progressbar" data-progress="{{ progress }}" style="width: 0%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            
+                        </div>
+                        <small class="text-muted mt-1 d-block">{{ progress|floatformat:2 }}%</small>
+                        <small class="text-muted mt-1 d-block">{{ current_savings|mul:goal.weightage|div:100|floatformat:0 }} / {{ goal.monthly_target|floatformat:0 }}</small>
+                        {% endwith %}
+                        
+    
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+    <!-- End Goals List -->   
+     
+    <div class="card mt-5">
         <div class="card-header bg-secondary text-white">
             All Goals
         </div>
@@ -108,56 +146,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Start Goals List -->
-    <div class="card">
-        <div class="card-header bg-secondary text-white">
-            Monthly Progress
-        </div>
-        <div class="card-body">
-            {% for goal in goals %}
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <h5>{{ goal.title }}</h5>
-                </div>
-                <div class="col-md-6">
-                    {% with progress=current_savings|mul:goal.weightage|div:goal.monthly_target%}
-                    <div class="progress">
-                        
-                        <div class="progress-bar" role="progressbar" data-progress="{{ progress }}" style="width: 0%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        
-                    </div>
-                    {{ progress|floatformat:2 }}%
-                    {% endwith %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-    <!-- End Goals List -->   
-     
-    <div class="list-group">
-        {% for goal in goals %}
-        <div class="list-group-item p-3">
-            <div class="d-flex align-items-center">
-                <img src="{% static 'images/car.png' %}" class="rounded-circle me-3" alt="User 1" style="width: 20%;">
-                <div class="flex-grow-1">
-                    <h2 class="mb-1">{{goal.title}}</h2>
-                    {% with progress=current_savings|mul:goal.weightage|div:goal.monthly_target%}
-                    <div class="progress">
-                        
-                        <div class="progress-bar" role="progressbar" data-progress="{{ progress }}" style="width: 0%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        
-                    </div>
-                    <small class="text-muted mt-1 d-block">{{ progress|floatformat:2 }}%</small>
-                    <small class="text-muted mt-1 d-block">{{ current_savings|mul:goal.weightage|div:100|floatformat:0 }} / {{ goal.monthly_target|floatformat:0 }}</small>
-                    {% endwith %}
-                    
-
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    
 </div>
 {% endblock %}
