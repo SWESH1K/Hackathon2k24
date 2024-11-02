@@ -2,20 +2,31 @@ from django.shortcuts import render, redirect
 from .models import Transaction, Tag
 from .forms import TransactionForm
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from datetime import datetime
+from django.db.models import Sum
+from django.utils import timezone
 
 @login_required
 def home(request):
     transactions = Transaction.objects.filter(user=request.user)
     tags = Tag.objects.all()
 
+    # Calculate totals
+    total_incoming = transactions.filter(transaction_type='incoming').aggregate(total=Sum('amount'))['total'] or 0
+    total_outgoing = transactions.filter(transaction_type='outgoing').aggregate(total=Sum('amount'))['total'] or 0
+    total_savings = total_incoming - total_outgoing
+
+    # Calculate current month totals
+    now = timezone.now()
+    start_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    current_month_incoming = transactions.filter(transaction_type='incoming', date__gte=start_of_month).aggregate(total=Sum('amount'))['total'] or 0
+    current_month_outgoing = transactions.filter(transaction_type='outgoing', date__gte=start_of_month).aggregate(total=Sum('amount'))['total'] or 0
+    current_month_savings = current_month_incoming - current_month_outgoing
+
     # Apply filters
     tag_id = request.GET.get('tag')
     month = request.GET.get('month')
     search = request.GET.get('search')
     way_of_payment = request.GET.get('way_of_payment')
-
     if tag_id:
         transactions = transactions.filter(tag_id=tag_id)
     if month:
@@ -39,7 +50,17 @@ def home(request):
     else:
         form = TransactionForm()
 
-    return render(request, 'expenses.html', {'transactions': transactions, 'tags': tags, 'form': form})
+    return render(request, 'expenses.html', {
+        'transactions': transactions,
+        'tags': tags,
+        'form': form,
+        'total_incoming': total_incoming,
+        'total_outgoing': total_outgoing,
+        'total_savings': total_savings,
+        'current_month_incoming': current_month_incoming,
+        'current_month_outgoing': current_month_outgoing,
+        'current_month_savings': current_month_savings,
+    })
 
 @login_required
 def edit_transaction(request, id):
