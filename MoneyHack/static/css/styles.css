@@ -1,8 +1,9 @@
 
 .feature-item {
     opacity: 0;
-    transition: opacity 1s ease-out, transform 2s ease-out, box-shadow 2s ease-out;
+    transition: opacity 1s ease-out, transform 2s ease-out;
     min-height: 330px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .feature-item:nth-of-type(odd) {
@@ -18,18 +19,17 @@
     transform: translateX(0);
 }
 
-.feature-content {
+/* .feature-item {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+} */
 
 .feature-item:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    transition: transform 1s ease-out, box-shadow 1s ease-out;
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
 }
 
 @media (max-width: 768px) {
