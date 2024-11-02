@@ -43,24 +43,22 @@ def home(request):
         heatmap_data = df_heatmap.pivot(index='Day', columns='Month', values='Amount').fillna(0)
 
         # Create the plots
-        fig_bar = px.bar(df_grouped, x='Month', y='Amount', color='Type', barmode='stack', title='Monthly Inflows and Outflows')
-        fig_pie = px.pie(df_pie, names='Tag', values='Amount', title='Monthly Expense Breakdown')
+        fig_bar = px.bar(df_grouped, x='Month', y='Amount', color='Type', barmode='stack')
+        fig_pie = px.pie(df_pie, names='Tag', values='Amount')
         fig_top_expenses = px.bar(
             df_top_expenses, 
             x='Amount', 
             y='Tag', 
             orientation='v', 
-            title='Top 5 Expense Categories',
             labels={'Amount': 'Total Expense', 'Tag': 'Category'}
         )
         # Create the heatmap
         fig_heatmap = px.imshow(heatmap_data, 
-                            title='Monthly Spending Heatmap',
                             labels=dict(x="Month", y="Day", color="Spending Amount"),
                             x=heatmap_data.columns,
                             y=heatmap_data.index)
-        fig_line = px.line(df_line, x='Month', y='Amount', color='Tag', title='Spending Trends Over Time')
-        fig_credit_card = px.line(df_credit_card, x='Month', y='Amount', title='Credit Card Debt Trend')
+        fig_line = px.line(df_line, x='Month', y='Amount', color='Tag')
+        fig_credit_card = px.line(df_credit_card, x='Month', y='Amount')
 
 
         # Convert the plotly figures to HTML
