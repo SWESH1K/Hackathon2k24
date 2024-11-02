@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Transaction, Tag
 from .forms import TransactionForm
 from django.contrib.auth.decorators import login_required
@@ -64,7 +64,7 @@ def home(request):
 
 @login_required
 def edit_transaction(request, id):
-    transaction = Transaction.objects.get(id=id, user=request.user)
+    transaction = get_object_or_404(Transaction, id=id, user=request.user)
     if request.method == 'POST':
         form = TransactionForm(request.POST, instance=transaction)
         if form.is_valid():
@@ -72,7 +72,8 @@ def edit_transaction(request, id):
             return redirect('expenses')
     else:
         form = TransactionForm(instance=transaction)
-    return render(request, 'edit_transaction.html', {'form': form, 'transaction': transaction})
+    tags = Tag.objects.all()
+    return render(request, 'edit_transaction.html', {'form': form, 'transaction': transaction, 'tags': tags})
 
 @login_required
 def delete_transaction(request, id):
