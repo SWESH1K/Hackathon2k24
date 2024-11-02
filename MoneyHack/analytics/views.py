@@ -35,7 +35,7 @@ def home(request):
         df_pie = df[df['Type'] == 'outgoing'].groupby('Tag').agg({'Amount': 'sum'}).reset_index()
         df_top_expenses = df[df['Type'] == 'outgoing'].groupby('Tag').agg({'Amount': 'sum'}).reset_index()
         df_top_expenses = df_top_expenses.sort_values(by='Amount', ascending=False).head(5)
-        df_credit_card = df[df['Way of Payment'] == 'Credit Card'].groupby('Month').agg({'Amount': 'sum'}).reset_index()
+        df_credit_card = df[df['Way of Payment'] == 'credit_card'].groupby('Month').agg({'Amount': 'sum'}).reset_index()
         df_heatmap = df[df['Type'] == 'outgoing'].groupby('Date').agg({'Amount': 'sum'}).reset_index()
         df_heatmap['Date'] = pd.to_datetime(df_heatmap['Date'])
         df_heatmap['Day'] = df_heatmap['Date'].dt.day
