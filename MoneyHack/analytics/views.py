@@ -45,6 +45,7 @@ def home(request):
         # Create the plots
         fig_bar = px.bar(df_grouped, x='Month', y='Amount', color='Type', barmode='stack')
         fig_pie = px.pie(df_pie, names='Tag', values='Amount')
+        fig_pie.update_traces(pull=[0.5 if i == 'hover' else 0 for i in df_pie['Tag']], hoverinfo='label+percent', textinfo='percent', textfont_size=20)
         fig_top_expenses = px.bar(
             df_top_expenses, 
             x='Amount', 
@@ -52,13 +53,16 @@ def home(request):
             orientation='v', 
             labels={'Amount': 'Total Expense', 'Tag': 'Category'}
         )
+        fig_top_expenses.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')), selector=dict(type='bar'))
         # Create the heatmap
         fig_heatmap = px.imshow(heatmap_data, 
                             labels=dict(x="Month", y="Day", color="Spending Amount"),
                             x=heatmap_data.columns,
                             y=heatmap_data.index)
+        fig_heatmap.update_traces(hoverinfo='x+y+z', selector=dict(type='heatmap'))
         fig_line = px.line(df_line, x='Month', y='Amount', color='Tag')
         fig_credit_card = px.line(df_credit_card, x='Month', y='Amount')
+        fig_credit_card.update_traces(mode='lines+markers+text', textposition='top center', line=dict(color='darkblue'), marker=dict(color='red'))
 
 
         # Convert the plotly figures to HTML
