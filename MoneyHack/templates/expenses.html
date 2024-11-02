@@ -6,12 +6,60 @@
 <div class="container mt-5">
     <h1 class="mb-4">Your Transactions</h1>
     
-    <!-- Add Transaction Form -->
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            Add New Transaction
+    <!-- Filter Button -->
+    <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
+        Filters
+    </button>
+
+    <!-- Filter Sidebar -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="filterSidebarLabel">Filters</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="card-body">
+        <div class="offcanvas-body">
+            <form method="get" action="{% url 'expenses' %}">
+                <div class="mb-3">
+                    <label for="tag" class="form-label">Tag</label>
+                    <select class="form-control" id="tag" name="tag">
+                        <option value="">All Tags</option>
+                        {% for tag in tags %}
+                        <option value="{{ tag.id }}" {% if request.GET.tag == tag.id|stringformat:"s" %}selected{% endif %}>{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="month" class="form-label">Month</label>
+                    <input type="month" class="form-control" id="month" name="month" value="{{ request.GET.month }}">
+                </div>
+                <div class="mb-3">
+                    <label for="search" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="search" name="search" value="{{ request.GET.search }}">
+                </div>
+                <div class="mb-3">
+                    <label for="way_of_payment" class="form-label">Way of Payment</label>
+                    <select class="form-control" id="way_of_payment" name="way_of_payment">
+                        <option value="">All Payment Methods</option>
+                        <option value="cash" {% if request.GET.way_of_payment == 'cash' %}selected{% endif %}>Cash</option>
+                        <option value="credit_card" {% if request.GET.way_of_payment == 'credit_card' %}selected{% endif %}>Credit Card</option>
+                        <option value="debit_card" {% if request.GET.way_of_payment == 'debit_card' %}selected{% endif %}>Debit Card</option>
+                        <option value="bank_transfer" {% if request.GET.way_of_payment == 'bank_transfer' %}selected{% endif %}>Bank Transfer</option>
+                        <option value="other" {% if request.GET.way_of_payment == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Transaction Button -->
+    <button class="btn btn-primary mb-4" type="button" data-bs-toggle="collapse" data-bs-target="#addTransactionForm" aria-expanded="false" aria-controls="addTransactionForm">
+        Add Transaction
+    </button>
+
+    <!-- Add Transaction Form -->
+    <div class="collapse" id="addTransactionForm">
+        <div class="card card-body mb-4">
             <form method="post" action="{% url 'add_transaction' %}">
                 {% csrf_token %}
                 <div class="mb-3">
@@ -30,6 +78,30 @@
                         {% endfor %}
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="way_of_payment" class="form-label">Way of Payment</label>
+                    <select class="form-control" id="way_of_payment" name="way_of_payment">
+                        <option value="cash">Cash</option>
+                        <option value="upi">Upi</option>
+                        <option value="credit_card">Credit Card</option>
+                        <option value="debit_card">Debit Card</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="transaction_type" class="form-label">Transaction Type</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="transaction_type" id="incoming" value="incoming" required>
+                            <label class="form-check-label" for="incoming">Incoming</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="transaction_type" id="outgoing" value="outgoing" required>
+                            <label class="form-check-label" for="outgoing">Outgoing</label>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-success">Add Transaction</button>
             </form>
         </div>
@@ -45,6 +117,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col">S.No</th>
                             <th scope="col">Amount</th>
                             <th scope="col">Description</th>
                             <th scope="col">Tag</th>
@@ -55,7 +128,10 @@
                     <tbody>
                         {% for transaction in transactions %}
                         <tr>
-                            <td data-label="Amount">{{ transaction.amount }}</td>
+                            <td>{{ forloop.counter }}</td>
+                            <td data-label="Amount" style="font-weight: 600;" class="{% if transaction.transaction_type == 'incoming' %}text-success{% else %}text-danger{% endif %}">
+                                {% if transaction.transaction_type == 'incoming' %}+{% else %}-{% endif %}{{ transaction.amount }}
+                            </td>
                             <td data-label="Description">{{ transaction.description }}</td>
                             <td data-label="Tag">{{ transaction.tag.name }}</td>
                             <td data-label="Date" class="d-none d-md-table-cell">{{ transaction.date }}</td>
