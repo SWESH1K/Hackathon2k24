@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Expenses{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Your Transactions</h1>
+    
+    <!-- Add Transaction Form -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            Add New Transaction
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'add_transaction' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tag" class="form-label">Tag</label>
+                    <select class="form-control" id="tag" name="tag">
+                        {% for tag in tags %}
+                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Add Transaction</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            All Transactions
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Tag</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for transaction in transactions %}
+                    <tr>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.description }}</td>
+                        <td>{{ transaction.tag.name }}</td>
+                        <td>{{ transaction.date }}</td>
+                        <td>
+                            <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'delete_transaction' transaction.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

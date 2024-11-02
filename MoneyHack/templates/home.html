@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light text-dark">
+    <h1 class="display-4">Welcome to MoneyHack</h1>
+    <p class="lead">Your ultimate budget tracking solution.</p>
+    <hr class="my-4">
+    <p>MoneyHack helps you manage your finances by tracking your income and expenses, setting budgets, and providing insightful reports.</p>
+    <a class="btn btn-dark btn-lg" href="#" role="button">Learn more</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card border-secondary">
+            <div class="card-body">
+                <h5 class="card-title text-secondary">Track Income & Expenses</h5>
+                <p class="card-text">Easily record your income and expenses to keep track of your financial activities.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-secondary">
+            <div class="card-body">
+                <h5 class="card-title text-secondary">Set Budgets</h5>
+                <p class="card-text">Set monthly budgets to control your spending and save more money.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-secondary">
+            <div class="card-body">
+                <h5 class="card-title text-secondary">Generate Reports</h5>
+                <p class="card-text">Generate detailed reports to analyze your financial health and make informed decisions.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
