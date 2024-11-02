@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+
 {% block title %}Expenses{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
     <h1 class="mb-4">Your Transactions</h1>
@@ -39,31 +41,42 @@
             All Transactions
         </div>
         <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Tag</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for transaction in transactions %}
-                    <tr>
-                        <td>{{ transaction.amount }}</td>
-                        <td>{{ transaction.description }}</td>
-                        <td>{{ transaction.tag.name }}</td>
-                        <td>{{ transaction.date }}</td>
-                        <td>
-                            <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="{% url 'delete_transaction' transaction.id %}" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Tag</th>
+                            <th scope="col" class="d-none d-md-table-cell">Date</th>
+                            <th scope="col" class="d-none d-md-table-cell">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td data-label="Amount">{{ transaction.amount }}</td>
+                            <td data-label="Description">{{ transaction.description }}</td>
+                            <td data-label="Tag">{{ transaction.tag.name }}</td>
+                            <td data-label="Date" class="d-none d-md-table-cell">{{ transaction.date }}</td>
+                            <td data-label="Actions" class="d-none d-md-table-cell">
+                                <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete_transaction' transaction.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        <tr class="d-md-none">
+                            <td colspan="3" data-label="Date">{{ transaction.date }}</td>
+                        </tr>
+                        <tr class="d-md-none">
+                            <td colspan="3" data-label="Actions">
+                                <a href="{% url 'edit_transaction' transaction.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'delete_transaction' transaction.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
