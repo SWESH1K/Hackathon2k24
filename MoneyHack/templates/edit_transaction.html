@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Edit Transaction{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Edit Transaction</h1>
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Edit Transaction
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'edit_transaction' transaction.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Amount</label>
+                    <input type="number" class="form-control" id="amount" name="amount" value="{{ form.amount.value }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" value="{{ form.description.value }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="tag" class="form-label">Tag</label>
+                    <select class="form-control" id="tag" name="tag">
+                        {% for tag in tags %}
+                        <option value="{{ tag.id }}" {% if form.tag.value == tag.id|stringformat:"s" %}selected{% endif %}>{{ tag.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="way_of_payment" class="form-label">Way of Payment</label>
+                    <select class="form-control" id="way_of_payment" name="way_of_payment">
+                        <option value="cash" {% if form.way_of_payment.value == 'cash' %}selected{% endif %}>Cash</option>
+                        <option value="upi" {% if form.way_of_payment.value == 'upi' %}selected{% endif %}>Upi</option>
+                        <option value="credit_card" {% if form.way_of_payment.value == 'credit_card' %}selected{% endif %}>Credit Card</option>
+                        <option value="debit_card" {% if form.way_of_payment.value == 'debit_card' %}selected{% endif %}>Debit Card</option>
+                        <option value="bank_transfer" {% if form.way_of_payment.value == 'bank_transfer' %}selected{% endif %}>Bank Transfer</option>
+                        <option value="other" {% if form.way_of_payment.value == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="transaction_type" class="form-label">Transaction Type</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="transaction_type" id="incoming" value="incoming" {% if form.transaction_type.value == 'incoming' %}checked{% endif %} required>
+                            <label class="form-check-label" for="incoming">Income</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="transaction_type" id="outgoing" value="outgoing" {% if form.transaction_type.value == 'outgoing' %}checked{% endif %} required>
+                            <label class="form-check-label" for="outgoing">Expense</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
