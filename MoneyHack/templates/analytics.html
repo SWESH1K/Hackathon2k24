@@ -7,26 +7,6 @@ Analytics
     <h1 class="mb-4">Analytics</h1>
     <div class="card mb-4">
         <div class="card-header bg-secondary text-white">
-            Monthly Inflows and Outflows
-        </div>
-        <div class="card-body">
-            <div id="bar-chart">
-                {{ graph_bar|safe }}
-            </div>
-        </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-header bg-secondary text-white">
-            Monthly Inflows and Outflows
-        </div>
-        <div class="card-body">
-            <div id="bar-chart">
-                {{ graph_bar|safe }}
-            </div>
-        </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-header bg-secondary text-white">
             Monthly Expense Breakdown
         </div>
         <div class="card-body">
@@ -35,5 +15,54 @@ Analytics
             </div>
         </div>
     </div>
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            Monthly Inflows and Outflows
+        </div>
+        <div class="card-body">
+            <div id="bar-chart">
+                {{ graph_bar|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            Daily Spending Heatmap
+        </div>
+        <div class="card-body">
+            <div id="heatmap-chart">
+                {{ graph_heatmap|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            Monthly Expense Trend
+        </div>
+        <div class="card-body">
+            <div id="line-chart">
+                {{ graph_line|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            Top 5 Expense Categories
+        </div>
+        <div class="card-body">
+            <div id="top-expenses-bar-chart">
+                {{ graph_top_expenses|safe }}
+            </div>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">
+            Credit Card Activity
+        </div>
+        <div class="card-body">
+            <div id="top-expenses-pie-chart">
+                {{ graph_credit_card|safe }}
+            </div>
+        </div>
 </div>
 {% endblock %}
