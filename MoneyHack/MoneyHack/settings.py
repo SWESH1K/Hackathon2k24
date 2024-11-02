@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'home',
     'expenses',
     'analytics',
-    'goals'
+    'goals',
     'chatbot',
 ]
 
