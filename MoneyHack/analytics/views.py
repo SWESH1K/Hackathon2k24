@@ -48,10 +48,10 @@ def home(request):
         fig_pie.update_traces(pull=[0.5 if i == 'hover' else 0 for i in df_pie['Tag']], hoverinfo='label+percent', textinfo='percent', textfont_size=20)
         fig_top_expenses = px.bar(
             df_top_expenses, 
-            x='Amount', 
-            y='Tag', 
+            x='Tag', 
+            y='Amount', 
             orientation='v', 
-            labels={'Amount': 'Total Expense', 'Tag': 'Category'}
+            labels={'Tag': 'Category', 'Amount': 'Total Expense'}
         )
         fig_top_expenses.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')), selector=dict(type='bar'))
         # Create the heatmap
