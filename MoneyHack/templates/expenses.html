@@ -1,16 +1,69 @@
 {% extends "base.html" %}
-
 {% block title %}Expenses{% endblock %}
-
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Your Transactions</h1>
-    
+    <h1 class="mb-4" style="text-align: center">Your Transactions</h1>
+
+    <!-- Totals Cards -->
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
+                <div class="card-header text-white bg-success" style="border-radius: 10px 10px 0 0;">Total Incoming</div>
+                <div class="card-body bg-light">
+                    <h5 class="card-title">+{{ total_incoming }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
+                <div class="card-header text-white bg-danger" style="border-radius: 10px 10px 0 0;">Total Outgoing</div>
+                <div class="card-body bg-light">
+                    <h5 class="card-title">-{{ total_outgoing }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
+                <div class="card-header text-white bg-primary" style="border-radius: 10px 10px 0 0;">Total Savings</div>
+                <div class="card-body bg-light">
+                    <h5 class="card-title">{{ total_savings }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Month Totals Cards -->
+    <div class="row mb-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
+                <div class="card-header text-white bg-info" style="border-radius: 10px 10px 0 0;">Current Month Incoming</div>
+                <div class="card-body bg-light">
+                    <h5 class="card-title">+{{ current_month_incoming }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
+                <div class="card-header text-white bg-warning" style="border-radius: 10px 10px 0 0;">Current Month Outgoing</div>
+                <div class="card-body bg-light">
+                    <h5 class="card-title">-{{ current_month_outgoing }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
+                <div class="card-header text-white bg-secondary" style="border-radius: 10px 10px 0 0;">Current Month Savings</div>
+                <div class="card-body bg-light">
+                    <h5 class="card-title">{{ current_month_savings }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Filter Button -->
     <button class="btn btn-primary mb-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
         Filters
     </button>
-
     <!-- Filter Sidebar -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
         <div class="offcanvas-header">
@@ -56,7 +109,6 @@
     <button class="btn btn-success mb-4" type="button" data-bs-toggle="collapse" data-bs-target="#addTransactionForm" aria-expanded="false" aria-controls="addTransactionForm">
         Add Transaction
     </button>
-
     <!-- Add Transaction Form -->
     <div class="collapse" id="addTransactionForm">
         <div class="card card-body mb-4">
