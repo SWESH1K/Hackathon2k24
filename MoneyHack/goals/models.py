@@ -9,7 +9,7 @@ class Goal(models.Model):
     target_amount = models.DecimalField(max_digits=10, decimal_places=2)
     weightage = models.DecimalField(
         max_digits=5,
-        decimal_places=2,
+        decimal_places=3,
         validators=[
             MinValueValidator(Decimal('0')),
             MaxValueValidator(Decimal('100'))
@@ -18,6 +18,7 @@ class Goal(models.Model):
         default=0
     )
     due_date = models.DateField()
+    icon = models.ImageField(upload_to='goal_icons/', default='../static/images/default_goal.png', null=True, blank=True)
 
     def __str__(self):
         return self.title

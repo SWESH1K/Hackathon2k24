@@ -1,10 +1,11 @@
 from django import forms
 from .models import Goal
+from django.db import models
 
 class GoalForm(forms.ModelForm):
     class Meta:
         model = Goal
-        fields = ['title', 'target_amount', 'weightage', 'due_date']
+        fields = ['title', 'target_amount', 'weightage', 'due_date', 'icon']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
