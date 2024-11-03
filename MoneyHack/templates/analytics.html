@@ -47,18 +47,6 @@ Analytics
         <div class="col-md-6 mb-4 chart-container">
             <div class="card">
                 <div class="card-header bg-secondary text-white">
-                    <h5>Yearly Spending Heatmap</h5>
-                </div>
-                <div class="card-body">
-                    <div id="heatmap-chart">
-                        {{ graphs.graph_heatmap|safe }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4 chart-container">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
                     <h5>Monthly Expense Trend</h5>
                 </div>
                 <div class="card-body">
@@ -68,8 +56,6 @@ Analytics
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-6 mb-4 chart-container">
             <div class="card">
                 <div class="card-header bg-secondary text-white">
@@ -78,18 +64,6 @@ Analytics
                 <div class="card-body">
                     <div id="top-expenses-bar-chart">
                         {{ graphs.graph_top_expenses|safe }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4 chart-container">
-            <div class="card">
-                <div class="card-header bg-secondary text-white">
-                    <h5>Credit Card Activity</h5>
-                </div>
-                <div class="card-body">
-                    <div id="top-expenses-pie-chart">
-                        {{ graphs.graph_credit_card|safe }}
                     </div>
                 </div>
             </div>
