@@ -91,17 +91,37 @@ def goals(request):
     })
 
 @login_required
-def edit_goal(request):
-    pass
+def edit_goal(request, id):
+    goal = get_object_or_404(Goal, id=id, user=request.user)
+    if request.method == 'POST':
+        form = GoalForm(request.POST, instance=goal)
+        if form.is_valid():
+            form.save()
+            return redirect('goals')
+    else:
+        form = GoalForm(instance=goal)
+    return render(request, 'edit_goal.html', {'form': form, 'goal': goal})
 
 @login_required
-def edit_family_goal(request):
-    pass
+def edit_family_goal(request, id):
+    goal = get_object_or_404(Goal, id=id, user=request.user)
+    if request.method == 'POST':
+        form = FamilyGoalForm(request.POST, instance=goal)
+        if form.is_valid():
+            form.save()
+            return redirect('goals')
+    else:
+        form = FamilyGoalForm(instance=goal)
+    return render(request, 'edit_family_goal.html', {'form': form, 'goal': goal})
 
 @login_required
-def delete_goal(request):
-    pass
+def delete_goal(request, id):
+    goal = Goal.objects.get(id=id, user=request.user)
+    goal.delete()
+    return redirect('goals')
 
 @login_required
 def delete_family_goal(request):
-    pass
+    goal = FamilyGoal.objects.get(id=id, user=request.user)
+    goal.delete()
+    return redirect('goals')

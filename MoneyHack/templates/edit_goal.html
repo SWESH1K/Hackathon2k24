@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Edit Goal{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Edit Goal</h1>
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Edit Goal
+        </div>
+        <div class="card-body">
+            <form method="post" action="{% url 'edit_goal' goal.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="add_goal" value="1">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Goal Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="icon" class="form-label">Icon</label>
+                    <input type="file" class="form-control" id="icon" name="icon">
+                </div>
+                <div class="mb-3">
+                    <label for="target_amount" class="form-label">Target Amount</label>
+                    <input type="number" class="form-control" id="target_amount" name="target_amount" required>
+                </div>
+                <div class="mb-3">
+                    <label for="weightage" class="form-label">Weightage</label>
+                    <input type="number" class="form-control" id="weightage" name="weightage" required>
+                </div>
+                <div class="mb-3">
+                    <label for="due_date" class="form-label">Due Date</label>
+                    <input type="date" class="form-control" id="due_date" name="due_date" required>
+                </div>
+                <button type="submit" class="btn btn-success">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
