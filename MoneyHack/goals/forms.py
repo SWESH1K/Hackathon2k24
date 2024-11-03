@@ -1,5 +1,5 @@
 from django import forms
-from .models import Goal
+from .models import Goal, FamilyGoal
 from django.db import models
 
 class GoalForm(forms.ModelForm):
@@ -21,3 +21,8 @@ class GoalForm(forms.ModelForm):
             if total_weightage + weightage > 100:
                 raise forms.ValidationError('The total weightage of all goals cannot exceed 100%.')
         return weightage
+
+class FamilyGoalForm(forms.ModelForm):
+    class Meta:
+        model = FamilyGoal
+        fields = ['title', 'target_amount', 'weightage', 'due_date', 'icon']

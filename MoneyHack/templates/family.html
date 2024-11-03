@@ -54,8 +54,7 @@
                 </div>
                 {% if user in family.admins.all %}
                     <div class="mt-4">
-                        <h5>Invite New Member</h5>
-                        <a href="{% url 'add_members' %}" class="btn-primary">Add Members</a>
+                        <a href="{% url 'add_members' %}" class="btn-primary" class="mt-4">Add Members</a>
                         <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMembersModal" >Add Members</button> -->
                     </div>
                 {% endif %}
@@ -95,43 +94,5 @@
     </div>
 </div>
 
-<!-- Add Members Modal -->
-<div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addMembersModalLabel">Add Members</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'add_members' %}">
-                    {% csrf_token %}
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Invite</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for user in users %}
-                                <tr>
-                                    <td>{{ user.username }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>
-                                        <input type="checkbox" name="invitees" value="{{ user.username }}">
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Send Invitations</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 {% endblock %}
