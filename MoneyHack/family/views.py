@@ -4,6 +4,14 @@ from .forms import FamilyGroupForm, InviteMemberForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from expenses.models import Transaction
+from django.contrib.auth.models import User
+
+@login_required
+def user_transactions(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    transactions = Transaction.objects.filter(user=user)
+    return render(request, 'user_transactions.html', {'transactions': transactions, 'user': user})
 
 @login_required
 def family(request):

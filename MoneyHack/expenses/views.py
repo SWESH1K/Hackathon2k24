@@ -6,6 +6,24 @@ from django.db.models import Sum
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.models import User
+from transaction_scapper import TransactionScapper
+from .forms import TransactionForm, UploadFileForm
+
+@login_required
+def upload_transactions(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            ts = TransactionScapper()
+            ts.load_data(file)
+            ts.print_head()
+            ts.to_csv('static/csv/cleaned_transactions.csv')
+            ts.save_transactions_to_db(user_id=request.user.id)
+            return redirect('expenses')
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload_transactions.html', {'form': form})
 
 @login_required
 def home(request):

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}'s Transactions{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ user.username }}'s Transactions</h1>
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Transactions
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Tag</th>
+                            <th scope="col">Way of Payment</th>
+                            <th scope="col">Transaction Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.date }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>{{ transaction.tag.name }}</td>
+                            <td>{{ transaction.way_of_payment }}</td>
+                            <td>{{ transaction.transaction_type }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
