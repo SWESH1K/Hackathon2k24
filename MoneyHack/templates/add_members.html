@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Add Members{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Add Members</h1>
+    <form method="post" action="{% url 'add_members' %}">
+        {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Invite</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            <input type="checkbox" name="invitees" value="{{ user.username }}">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Send Invitations</button>
+    </form>
+</div>
+{% endblock %}

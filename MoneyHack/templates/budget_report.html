@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Budget Report - {{report_month}} {{report_year}}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    {% load humanize %}
+    <div class="container py-5">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Monthly Budget Report</h1>
+            <div class="text-end">
+                <h4>{{ report_month }} {{ report_year }}</h4>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Total Income</h6>
+                        <!-- TODO -->
+                        <h3 class="text-success mb-0">₹{{ total_income|floatformat:2 }}</h3>
+                        <small class="text-muted"><i class="fas fa-arrow-up text-success"></i> 5% from last month</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Total Expenses</h6>
+                        <h3 class="text-danger mb-0">₹{{ total_expenses|floatformat:2 }}</h3>
+                        <small class="text-muted"><i class="fas fa-arrow-down text-success"></i> 3% from last month</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Savings</h6>
+                        <h3 class="text-primary mb-0">₹{{ total_savings|floatformat:2 }}</h3>
+                        <small class="text-muted"><i class="fas fa-arrow-up text-success"></i> 12% from last month</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-2">Saving Goals Progress</h6>
+                        <!-- TODO -->
+                        <h3 class="text-info mb-0">68%</h3>
+                        <small class="text-muted">Average across all goals</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spending by Category -->
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Spending by Category</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Category Progress Bars -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Housing</span>
+                                <span>$1,500 / $1,600</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" style="width: 94%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Food & Dining</span>
+                                <span>$850 / $800</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-danger" style="width: 106%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Transportation</span>
+                                <span>$400 / $500</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            <h6 class="alert-heading">Budget Insights</h6>
+                            <ul class="mb-0">
+                                <li>You've exceeded your Food & Dining budget by 6%</li>
+                                <li>Transportation spending is well under budget</li>
+                                <li>Housing expenses are on track</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Saving Goals Progress -->
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Saving Goals Progress</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Emergency Fund</span>
+                        <span>$9,000 / $12,000</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-success" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Vacation Fund</span>
+                        <span>$2,500 / $5,000</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar bg-info" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="card border-0 shadow-sm mb-5">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Recent Transactions</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sep 30</td>
+                                <td>Grocery Store</td>
+                                <td>Food & Dining</td>
+                                <td class="text-danger">-$125.45</td>
+                            </tr>
+                            <tr>
+                                <td>Sep 29</td>
+                                <td>Monthly Salary</td>
+                                <td>Income</td>
+                                <td class="text-success">+$5,250.00</td>
+                            </tr>
+                            <tr>
+                                <td>Sep 28</td>
+                                <td>Electric Bill</td>
+                                <td>Utilities</td>
+                                <td class="text-danger">-$85.20</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Recommendations</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Consider reducing restaurant expenses to stay within Food & Dining budget</li>
+                    <li class="list-group-item">You're on track to reach your Emergency Fund goal by December 2024</li>
+                    <li class="list-group-item">Your saving rate has improved by 12% - Great job!</li>
+                    <li class="list-group-item">Transportation spending is under budget - consider allocating extra to savings goals</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

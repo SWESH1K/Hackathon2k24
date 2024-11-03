@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.models import User
 
 @login_required
 def home(request):
@@ -84,4 +85,34 @@ def edit_transaction(request, id):
 def delete_transaction(request, id):
     transaction = Transaction.objects.get(id=id, user=request.user)
     transaction.delete()
+    return redirect('expenses')
+
+@login_required
+def budget_report(request):
+    return render(request, 'budget_report.html')
+
+import calendar
+
+@login_required
+def generate_report(request):
+    if request.method == 'POST':
+        report_month = request.POST.get('report_month')
+        year, month = map(int, report_month.split('-'))
+        start_date = timezone.datetime(year, month, 1)
+        end_date = timezone.datetime(year, month, calendar.monthrange(year, month)[1])
+
+        transactions = Transaction.objects.filter(user=request.user, date__range=[start_date, end_date])
+        total_income = transactions.filter(transaction_type='incoming').aggregate(total=Sum('amount'))['total'] or 0
+        total_expenses = transactions.filter(transaction_type='outgoing').aggregate(total=Sum('amount'))['total'] or 0
+        total_savings = total_income - total_expenses
+
+        context = {
+            'report_month': calendar.month_name[month],
+            'report_year': year,
+            'total_income': total_income,
+            'total_expenses': total_expenses,
+            'total_savings': total_savings,
+            'transactions': transactions,
+        }
+        return render(request, 'budget_report.html', context)
     return redirect('expenses')
