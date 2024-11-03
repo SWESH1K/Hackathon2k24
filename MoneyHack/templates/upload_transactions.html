@@ -1,20 +1,39 @@
-<!-- expenses/templates/upload_transactions.html -->
-{% extends "base.html" %}
-{% block title %}Upload Transactions{% endblock %}
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}'s Transactions{% endblock %}
 {% block content %}
-<div class="container mt-3 d-flex justify-content-center">
-    <div class="card shadow-sm custom-card-width-lg">
-        <div class="card-header bg-dark text-white">
-            <h2 class="mb-0" style="font-size: 24px">Upload Transactions</h2>
+<div class="container mt-5">
+    <h1 class="mb-4">{{ user.username }}'s Transactions</h1>
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            Transactions
         </div>
         <div class="card-body">
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-sm custom-button-width">Upload</button>
-                </div>
-            </form>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Tag</th>
+                            <th scope="col">Way of Payment</th>
+                            <th scope="col">Transaction Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.date }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.description }}</td>
+                            <td>{{ transaction.tag.name }}</td>
+                            <td>{{ transaction.way_of_payment }}</td>
+                            <td>{{ transaction.transaction_type }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

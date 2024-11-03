@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center">
+<div class="container mt-5">
     {% if not user.member_of_family.exists and not user.admin_of_family.exists %}
-        <div>
-            <div class="text-center">
-                <h2>You do not belong to a family</h2>
-                <p>You can create a new family or join an existing one.</p>
-                <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#createFamilyModal">Create Family</button>
-                <p>or Join Someone else's Family!</p>
-            </div>
+        <div class="text-center">
+            <h2 class="mb-4">You do not belong to a family</h2>
+            <p class="lead">You can create a new family or join an existing one.</p>
+            <button class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#createFamilyModal">Create Family</button>
+            <p class="lead">or Join Someone else's Family!</p>
             {% if pending_invitations %}
                 <div class="card mt-4">
                     <div class="card-header bg-info text-white">
@@ -19,7 +17,7 @@
                         <div class="list-group">
                             {% for invitation in pending_invitations %}
                                 <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ invitation.family.name }}
+                                    <span>{{ invitation.family.name }}</span>
                                     <div>
                                         <form method="POST" action="{% url 'accept_invitation' invitation.id %}" class="d-inline">
                                             {% csrf_token %}
@@ -39,8 +37,8 @@
         </div>
     {% else %}
         {% for family in user_families %}
-        <div class="card">
-            <div class="card-header bg-primary text-white">
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
                 <h4 class="card-title mb-0">{{ family.name }}</h4>
             </div>
             <div class="card-body">
@@ -48,23 +46,20 @@
                 <div class="list-group">
                     {% for member in family.members.all %}
                         <div class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ member.username }}
+                            <span>{{ member.username }}</span>
                         </div>
                     {% endfor %}
                 </div>
                 {% if user in family.admins.all %}
                     <div class="mt-4">
-                        <h5>Invite New Member</h5>
-                        <a href="{% url 'add_members' %}" class="btn-primary">Add Members</a>
-                        <!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMembersModal" >Add Members</button> -->
+                        {% comment %} <h5>Invite New Member</h5> {% endcomment %}
+                        <a href="{% url 'add_members' %}" class="btn btn-primary">Add Members</a>
                     </div>
                 {% endif %}
                 <div class="mt-4">
                     <form method="POST" action="{% url 'leave_family' %}" class="d-inline">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to leave this family?')">
-                            Leave Family
-                        </button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to leave this family?')">Leave Family</button>
                     </form>
                 </div>
             </div>
@@ -89,46 +84,6 @@
                         <input type="text" class="form-control" id="family_name" name="family_name" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Create</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Members Modal -->
-<div class="modal fade" id="addMembersModal" tabindex="-1" aria-labelledby="addMembersModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addMembersModalLabel">Add Members</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form method="post" action="{% url 'add_members' %}">
-                    {% csrf_token %}
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Invite</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for user in users %}
-                                <tr>
-                                    <td>{{ user.username }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>
-                                        <input type="checkbox" name="invitees" value="{{ user.username }}">
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-3">Send Invitations</button>
                 </form>
             </div>
         </div>

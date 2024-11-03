@@ -7,6 +7,7 @@ urlpatterns = [
     path('invite/<username>', views.invite_member, name='invite_member'),
     path('leave/', views.leave_family, name='leave_family'),
     path('add_members/', views.add_members, name='add_members'),
-    path('accept_invitation/<int:invitation_id>/', views.accept_invitation, name='accept_invitation'),  # Add this line
-    path('decline_invitation/<int:invitation_id>/', views.decline_invitation, name='decline_invitation'),  # Add this line
+    path('accept_invitation/<int:invitation_id>/', views.accept_invitation, name='accept_invitation'),
+    path('decline_invitation/<int:invitation_id>/', views.decline_invitation, name='decline_invitation'),
+    path('user_transactions/<int:user_id>/', views.user_transactions, name='user_transactions'),  # New URL pattern
 ]
