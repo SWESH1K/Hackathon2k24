@@ -1,3 +1,4 @@
+# expenses/urls.py
 from django.urls import path
 from . import views
 
@@ -6,4 +7,5 @@ urlpatterns = [
     path('add/', views.home, name='add_transaction'),
     path('edit/<int:id>/', views.edit_transaction, name='edit_transaction'),
     path('delete/<int:id>/', views.delete_transaction, name='delete_transaction'),
+    path('upload/', views.upload_transactions, name='upload_transactions'),
 ]

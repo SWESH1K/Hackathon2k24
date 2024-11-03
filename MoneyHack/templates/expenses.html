@@ -10,7 +10,7 @@
             <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
                 <div class="card-header text-white bg-success" style="border-radius: 10px 10px 0 0;">Total Incoming</div>
                 <div class="card-body bg-light">
-                    <h5 class="card-title">+{{ total_incoming }}</h5>
+                    <h5 class="card-title">+{{ total_incoming|floatformat:3 }}</h5>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
                 <div class="card-header text-white bg-danger" style="border-radius: 10px 10px 0 0;">Total Outgoing</div>
                 <div class="card-body bg-light">
-                    <h5 class="card-title">-{{ total_outgoing }}</h5>
+                    <h5 class="card-title">-{{ total_outgoing|floatformat:3 }}</h5>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
                 <div class="card-header text-white bg-primary" style="border-radius: 10px 10px 0 0;">Total Savings</div>
                 <div class="card-body bg-light">
-                    <h5 class="card-title">{{ total_savings }}</h5>
+                    <h5 class="card-title">{{ total_savings|floatformat:3 }}</h5>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
             <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
                 <div class="card-header text-white bg-info" style="border-radius: 10px 10px 0 0;">Current Month Incoming</div>
                 <div class="card-body bg-light">
-                    <h5 class="card-title">+{{ current_month_incoming }}</h5>
+                    <h5 class="card-title">+{{ current_month_incoming|floatformat:3 }}</h5>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
             <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
                 <div class="card-header text-white bg-warning" style="border-radius: 10px 10px 0 0;">Current Month Outgoing</div>
                 <div class="card-body bg-light">
-                    <h5 class="card-title">-{{ current_month_outgoing }}</h5>
+                    <h5 class="card-title">-{{ current_month_outgoing|floatformat:3 }}</h5>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
             <div class="card mb-3 shadow-lg" style="border-radius: 10px 10px;">
                 <div class="card-header text-white bg-secondary" style="border-radius: 10px 10px 0 0;">Current Month Savings</div>
                 <div class="card-body bg-light">
-                    <h5 class="card-title">{{ current_month_savings }}</h5>
+                    <h5 class="card-title">{{ current_month_savings|floatformat:3 }}</h5>
                 </div>
             </div>
         </div>
@@ -105,10 +105,14 @@
         </div>
     </div>
 
-    <!-- Add Transaction Button -->
-    <button class="btn btn-success mb-4" type="button" data-bs-toggle="collapse" data-bs-target="#addTransactionForm" aria-expanded="false" aria-controls="addTransactionForm">
-        Add Transaction
-    </button>
+    <!-- Add Transaction and Import Bill Buttons -->
+    <div class="d-flex justify-content-between mb-4">
+        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#addTransactionForm" aria-expanded="false" aria-controls="addTransactionForm">
+            Add Transaction
+        </button>
+        <a href="{% url 'upload_transactions' %}" class="btn btn-info">Import Bill</a>
+    </div>
+
     <!-- Add Transaction Form -->
     <div class="collapse" id="addTransactionForm">
         <div class="card card-body mb-4">
@@ -182,7 +186,7 @@
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td data-label="Amount" style="font-weight: 600;" class="{% if transaction.transaction_type == 'incoming' %}text-success{% else %}text-danger{% endif %}">
-                                {% if transaction.transaction_type == 'incoming' %}+{% else %}-{% endif %}{{ transaction.amount }}
+                                {% if transaction.transaction_type == 'incoming' %}+{% else %}-{% endif %}{{ transaction.amount|floatformat:3 }}
                             </td>
                             <td data-label="Description">{{ transaction.description }}</td>
                             <td data-label="Tag">{{ transaction.tag.name }}</td>

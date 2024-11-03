@@ -96,3 +96,7 @@
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+.custom-button-width {
+    width: 50%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the button */
+}

@@ -1,0 +1,21 @@
+<!-- expenses/templates/upload_transactions.html -->
+{% extends "base.html" %}
+{% block title %}Upload Transactions{% endblock %}
+{% block content %}
+<div class="container mt-3 d-flex justify-content-center">
+    <div class="card shadow-sm custom-card-width-lg">
+        <div class="card-header bg-dark text-white">
+            <h2 class="mb-0" style="font-size: 24px">Upload Transactions</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-sm custom-button-width">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
