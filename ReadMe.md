@@ -42,7 +42,7 @@ MoneyHack is your ultimate budget tracking solution. It helps you manage your fi
 ### Clone the Repository
 
 ```sh
-git clone https://github.com/SWESH1K/MoneyHack.git
+git clone https://github.com/SWESH1K/Hackathon2k24.git
 cd MoneyHack
 ```
 
