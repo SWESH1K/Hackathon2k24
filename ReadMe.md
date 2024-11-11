@@ -43,7 +43,6 @@ MoneyHack is your ultimate budget tracking solution. It helps you manage your fi
 
 ```sh
 git clone https://github.com/SWESH1K/Hackathon2k24.git
-cd MoneyHack
 ```
 
 ### Set Up the Virtual Environment
@@ -63,6 +62,7 @@ pip install -r requirements.txt
 ### Set Up the Database
 
 ```sh
+cd MoneyHack
 python manage.py makemigrations
 python manage.py migrate
 ```
